@@ -86,18 +86,18 @@ set expandtab
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
 "STATUSLINE
-set ruler
-set laststatus=2
+" set ruler
+" set laststatus=2
 
-set statusline=%{fugitive#statusline()}
+" set statusline=%{fugitive#statusline()}
 " file encoding
-set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
+" set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
 " file name
-set statusline+=\ %f
+" set statusline+=\ %f
 " last print time
-set statusline+=%=%{strftime(\"%c\",getftime(expand(\"%:p\")))}
+" set statusline+=%=%{strftime(\"%c\",getftime(expand(\"%:p\")))}
 " line counter
-set statusline+=%=\ \ \ %l/%L
+" set statusline+=%=\ \ \ %l/%L
 
 "Plugins to load at vim start
 "autocmd vimenter
@@ -151,9 +151,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'jeetsukumaran/vim-indentwise'
 
 "Autocomplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'maralla/completor.vim'
 
 "Search counter
 Plug 'vim-scripts/IndexedSearch'
@@ -161,12 +159,22 @@ Plug 'vim-scripts/IndexedSearch'
 "Tagbar
 Plug 'majutsushi/tagbar'
 
+"Statusline style
+Plug 'vim-airline/vim-airline'
+
+"Syntastic
+Plug 'vim-syntastic/syntastic'
+
 call plug#end()
 
 hi String ctermfg=204
 
-"Use Deoplete
-let g:deoplete#enable_at_startup=1
+"Airline customizations
+let g:airline_section_y = "%{strftime(\"%c\",getftime(expand(\"%:p\")))}"
+let g:airline_section_z = '%l/%L'
+
+"Syntastic customizations
+let g:syntastic_python_python_exec = '/usr/bin/python3'
 
 "NERDTree toggle shortcut
 map <F6> :NERDTreeToggle<CR>
