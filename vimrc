@@ -188,6 +188,3 @@ map \py2 :! python %<CR>
 
 "Tagbar
 nmap <F8> :TagbarToggle<CR>
-
-"YankRing
-nmap <silent> <F7> :YRShow<CR>
