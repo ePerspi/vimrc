@@ -51,7 +51,7 @@ set ignorecase		" Do case insensitive matching
 set smartcase		" Do smart case matching
 set incsearch		" Incremental search
 set autowrite		" Automatically save before commands like :next and :make
-"set hidden		" Hide buffers when they are abandoned
+set hidden		" Hide buffers when they are abandoned
 "set mouse=a		" Enable mouse usage (all modes)
 
 " Source a global configuration file if available
@@ -85,19 +85,11 @@ set expandtab
 "Whitespaces
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
-"STATUSLINE
-" set ruler
-" set laststatus=2
+"Statusline
+set rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+set laststatus=2
+set t_Co=256
 
-" set statusline=%{fugitive#statusline()}
-" file encoding
-" set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
-" file name
-" set statusline+=\ %f
-" last print time
-" set statusline+=%=%{strftime(\"%c\",getftime(expand(\"%:p\")))}
-" line counter
-" set statusline+=%=\ \ \ %l/%L
 
 "Plugins to load at vim start
 "autocmd vimenter
@@ -108,11 +100,11 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-"Plugins
-call plug#begin('/usr/share/vim/plugged')
+"Encoding
+set encoding=utf-8
 
-"Minimap
-Plug 'severin-lemaignan/vim-minimap'
+"Plugins
+call plug#begin('~/.vim/plugged')
 
 "NERDTree tree file explorer
 Plug 'scrooloose/nerdtree'
@@ -135,9 +127,6 @@ Plug 'tpope/vim-commentary'
 "Vim unimpaired
 Plug 'tpope/vim-unimpaired'
 
-"Colorschemes
-Plug 'vim-scripts/burnttoast256'
-
 "Ctags generator
 Plug 'szw/vim-tags'
 
@@ -150,28 +139,35 @@ Plug 'michaeljsmith/vim-indent-object'
 "Indent movement
 Plug 'jeetsukumaran/vim-indentwise'
 
-"Autocomplete
-Plug 'maralla/completor.vim'
-
 "Search counter
 Plug 'vim-scripts/IndexedSearch'
 
 "Tagbar
 Plug 'majutsushi/tagbar'
 
-"Statusline style
-Plug 'vim-airline/vim-airline'
-
 "Syntastic
 Plug 'vim-syntastic/syntastic'
+
+"Black Python auto-format
+Plug 'python/black'
+
+"Python indent
+Plug 'vim-scripts/indentpython.vim'
+
+"PEP 8 check
+Plug 'nvie/vim-flake8'
+
+"Powerline
+Plug 'Lokaltog/powerline'
+
+"Docker
+Plug 'docker/docker', {'rtp': '/contrib/syntax/vim/'}
 
 call plug#end()
 
 hi String ctermfg=204
 
-"Airline customizations
-let g:airline_section_y = "%{strftime(\"%c\",getftime(expand(\"%:p\")))}"
-let g:airline_section_z = '%l/%L'
+let python_highlight_all=1
 
 "Syntastic customizations
 let g:syntastic_python_python_exec = '/usr/bin/python3'
@@ -179,12 +175,11 @@ let g:syntastic_python_python_exec = '/usr/bin/python3'
 "NERDTree toggle shortcut
 map <F6> :NERDTreeToggle<CR>
 
-"Minimap toggle shortcut
-map \mini :MinimapToggle<CR>
-
 "Run python script
-map \py3 :! python3 %<CR>
-map \py2 :! python %<CR>
+map \py :! python3 %<CR>
 
 "Tagbar
 nmap <F8> :TagbarToggle<CR>
+
+"Run Black on save
+autocmd BufWritePre *.py execute ':Black'
