@@ -21,38 +21,34 @@ runtime! debian.vim
 " options, so any other options should be set AFTER setting 'compatible'.
 "set compatible
 
-" Vim5 and later versions support syntax highlighting. Uncommenting the next
-" line enables syntax highlighting by default.
-if has("syntax")
-  syntax on
-endif
-
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
 set background=dark
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
-if has("autocmd")
-  filetype plugin indent on
+filetype plugin indent on
+
+" Vim5 and later versions support syntax highlighting. Uncommenting the next
+" line enables syntax highlighting by default.
+if has("syntax")
+  syntax on
 endif
 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
 set showcmd		" Show (partial) command in status line.
-set showmatch		" Show matching brackets.
-set ignorecase		" Do case insensitive matching
-set smartcase		" Do smart case matching
-set incsearch		" Incremental search
-set autowrite		" Automatically save before commands like :next and :make
+set showmatch	" Show matching brackets.
+set ignorecase	" Do case insensitive matching
+set smartcase	" Do smart case matching
+set incsearch	" Incremental search
+set autowrite	" Automatically save before commands like :next and :make
 set hidden		" Hide buffers when they are abandoned
-"set mouse=a		" Enable mouse usage (all modes)
+"set mouse=a	" Enable mouse usage (all modes)
 
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
@@ -70,40 +66,31 @@ set number
 "Show relative line numbers
 set relativenumber
 
-"Keep 8 chars tab for make files
-if has("autocmd")
-        filetype plugin indent on
-        autocmd Filetype make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
-endif
-
 "Replace tabs with 4 spaces
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 
+"Keep 8 chars tab for make files
+if has("autocmd")
+        filetype plugin indent on
+        autocmd Filetype make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
+endif
+
 "Whitespaces
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
-"Statusline
-set rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim/
-set laststatus=2
-set t_Co=256
-
-
-"Plugins to load at vim start
-"autocmd vimenter
-
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 "Encoding
 set encoding=utf-8
 
-"Plugins
+""Plugins
 call plug#begin('~/.vim/plugged')
 
 "NERDTree tree file explorer
@@ -111,9 +98,6 @@ Plug 'scrooloose/nerdtree'
 
 "NERDTree git flags
 Plug 'Xuyuanp/nerdtree-git-plugin'
-
-"Git wrapper
-Plug 'tpope/vim-fugitive'
 
 "Vim repeat
 Plug 'tpope/vim-repeat'
@@ -126,9 +110,6 @@ Plug 'tpope/vim-commentary'
 
 "Vim unimpaired
 Plug 'tpope/vim-unimpaired'
-
-"Ctags generator
-Plug 'szw/vim-tags'
 
 "Autoclose
 Plug 'Townk/vim-autoclose'
@@ -145,41 +126,23 @@ Plug 'vim-scripts/IndexedSearch'
 "Tagbar
 Plug 'majutsushi/tagbar'
 
-"Syntastic
-Plug 'vim-syntastic/syntastic'
-
 "Black Python auto-format
-Plug 'python/black'
-
-"Python indent
-Plug 'vim-scripts/indentpython.vim'
+Plug 'psf/black'
 
 "PEP 8 check
 Plug 'nvie/vim-flake8'
 
-"Powerline
-Plug 'Lokaltog/powerline'
+"CSV reader
+Plug 'chrisbra/csv.vim'
 
-"Docker
-Plug 'docker/docker', {'rtp': '/contrib/syntax/vim/'}
+"Status line
+Plug 'vim-airline/vim-airline'
 
 call plug#end()
-
-hi String ctermfg=204
-
-let python_highlight_all=1
-
-"Syntastic customizations
-let g:syntastic_python_python_exec = '/usr/bin/python3'
 
 "NERDTree toggle shortcut
 map <F6> :NERDTreeToggle<CR>
 
-"Run python script
-map \py :! python3 %<CR>
-
-"Tagbar
-nmap <F8> :TagbarToggle<CR>
-
-"Run Black on save
+"On save
 autocmd BufWritePre *.py execute ':Black'
+autocmd BufWritePost *.py call flake8#Flake8()
