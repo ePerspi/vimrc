@@ -1,3 +1,37 @@
+"Tagbar toggle shortcut
+nmap <F8> :TagbarToggle<CR>
+
+"Tags files
+set tags=./tags;
+
+"Easytags settings
+let g:easytags_dynamic_files = 1
+
+"Ctags bin path
+let g:tagbar_ctags_bin = '/home/vanasse/bin/ctags/bin/ctags'
+let g:easytags_cmd = '/home/vanasse/bin/ctags/bin/ctags'
+
+"On save
+autocmd BufWritePre *.py execute ':Black'
+autocmd BufWritePost *.py call flake8#Flake8()
+:let g:easytags_events = ['BufWritePost']
+"Tagbar toggle shortcut
+nmap <F8> :TagbarToggle<CR>
+
+"Tags files
+set tags=./tags;
+
+"Easytags settings
+let g:easytags_dynamic_files = 1
+
+"Ctags bin path
+let g:tagbar_ctags_bin = '/home/vanasse/bin/ctags/bin/ctags'
+let g:easytags_cmd = '/home/vanasse/bin/ctags/bin/ctags'
+
+"On save
+autocmd BufWritePre *.py execute ':Black'
+autocmd BufWritePost *.py call flake8#Flake8()
+:let g:easytags_events = ['BufWritePost']
 " All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
 " the call to :runtime you can find below.  If you wish to change any of those
 " settings, you should do it in this file (/etc/vim/vimrc), since debian.vim
@@ -126,6 +160,10 @@ Plug 'vim-scripts/IndexedSearch'
 "Tagbar
 Plug 'majutsushi/tagbar'
 
+"Easytags                                                                                                                             
+Plug 'xolox/vim-misc'                                                                                                                 
+Plug 'xolox/vim-easytags'
+
 "Black Python auto-format
 Plug 'psf/black'
 
@@ -143,6 +181,20 @@ call plug#end()
 "NERDTree toggle shortcut
 map <F6> :NERDTreeToggle<CR>
 
+"Tagbar toggle shortcut
+nmap <F8> :TagbarToggle<CR>
+
+"Tags files
+set tags=./tags;
+
+"Easytags settings
+let g:easytags_dynamic_files = 1
+
+"Ctags bin path
+let g:tagbar_ctags_bin = '/home/vanasse/bin/ctags/bin/ctags'
+let g:easytags_cmd = '/home/vanasse/bin/ctags/bin/ctags'
+
 "On save
 autocmd BufWritePre *.py execute ':Black'
 autocmd BufWritePost *.py call flake8#Flake8()
+:let g:easytags_events = ['BufWritePost']
